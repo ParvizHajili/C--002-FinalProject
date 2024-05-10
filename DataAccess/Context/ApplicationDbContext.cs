@@ -1,5 +1,6 @@
 ﻿using Entities.Concrete.TableModels;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace DataAccess.Context
 {
@@ -11,6 +12,10 @@ namespace DataAccess.Context
             optionsBuilder.UseSqlServer("Data Source = Localhost; Initial Catalog = RestaurantDb; Integrated Security= true;Encrypt = false;");
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
 
         public DbSet<About> Abouts { get; set; }
         public DbSet<Contact> Contacts { get; set; }

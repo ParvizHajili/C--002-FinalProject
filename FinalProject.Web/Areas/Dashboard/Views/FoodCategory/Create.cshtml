@@ -1,0 +1,27 @@
+﻿@model FoodCategory
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Kateqoriya Adı</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IconName" class="control-label">İkon adı</label>
+                <input asp-for="IconName" class="form-control" id="answer" />
+                <span asp-validation-for="IconName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@DefaultConstantValue.ADD_MESSAGE" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">@DefaultConstantValue.RETURN_TO_BACK</a>
+</div>

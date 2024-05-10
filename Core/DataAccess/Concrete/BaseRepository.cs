@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess.Abstract;
 using Core.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Core.DataAccess.Concrete
 {
@@ -18,7 +19,6 @@ namespace Core.DataAccess.Concrete
                 context.SaveChanges();
             }
         }
-
 
         public void Update(TEntity entity)
         {
@@ -42,11 +42,18 @@ namespace Core.DataAccess.Concrete
             }
         }
 
-        public List<TEntity> GetAll()
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>>? filter = null)
         {
             using (TContext context = new TContext())
             {
-                return context.Set<TEntity>().ToList();
+                if (filter == null)
+                {
+                    return context.Set<TEntity>().ToList();
+                }
+                else
+                {
+                    return context.Set<TEntity>().Where(filter).ToList();
+                }
             }
         }
 
@@ -57,5 +64,6 @@ namespace Core.DataAccess.Concrete
                 return context.Set<TEntity>().FirstOrDefault(x => x.Id == id);
             }
         }
+
     }
 }

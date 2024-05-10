@@ -10,4 +10,8 @@
     <Folder Include="Areas\Dashboard\Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Business\Business.csproj" />
+  </ItemGroup>
+
 </Project>
