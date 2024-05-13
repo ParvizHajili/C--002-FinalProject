@@ -1,5 +1,4 @@
-﻿using Business.Abstract;
-using Business.Concrete;
+﻿using Business.Concrete;
 using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +27,9 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         {
             var result = _foodCategoryManager.Add(foodCategory);
             if (result.IsSuccess)
+            {
                 return RedirectToAction("Index");
+            }
 
             return View(foodCategory);
         }
