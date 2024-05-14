@@ -3,6 +3,7 @@ using Business.BaseMessages;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
 using DataAccess.Concrete;
+using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 
 namespace Business.Concrete
@@ -10,18 +11,22 @@ namespace Business.Concrete
     public class FoodCategoryManager : IFoodCategoryService
     {
         FoodCategoryDal foodCategoryDal = new();
-        public IResult Add(FoodCategory entity)
+        public IResult Add(FoodCategoryCreateDto dto)
         {
-            foodCategoryDal.Add(entity);
+            var model = FoodCategoryCreateDto.ToFoodCategory(dto);
+
+            foodCategoryDal.Add(model);
 
             return new SuccessResult(UIMessages.ADDED_MESSAGE);
         }
 
 
-        public IResult Update(FoodCategory entity)
+        public IResult Update(FoodCategoryUpdateDto dto)
         {
-            entity.LastUpdateDate = DateTime.Now;
-            foodCategoryDal.Update(entity);
+            var model = FoodCategoryUpdateDto.ToFoodCategory(dto);
+            model.LastUpdateDate = DateTime.Now;
+
+            foodCategoryDal.Update(model);
 
             return new SuccessResult(UIMessages.UPDATE_MESSAGE);
         }

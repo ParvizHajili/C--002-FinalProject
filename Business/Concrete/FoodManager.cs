@@ -3,6 +3,7 @@ using Business.BaseMessages;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
 using DataAccess.Concrete;
+using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 
 namespace Business.Concrete
@@ -42,9 +43,9 @@ namespace Business.Concrete
             return new SuccessDataResult<Food>(FoodDal.GetById(id));
         }
 
-        public IDataResult<List<Food>> GetFoodWithFoodCategoryId()
+        public IDataResult<List<FoodDto>> GetFoodWithFoodCategoryId()
         {
-            return new SuccessDataResult<List<Food>>(FoodDal.GetFoodWithFoodCategories());
+            return new SuccessDataResult<List<FoodDto>>(FoodDal.GetFoodWithFoodCategories());
         }
     }
 }

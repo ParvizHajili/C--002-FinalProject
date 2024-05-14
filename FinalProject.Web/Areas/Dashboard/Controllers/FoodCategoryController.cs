@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,15 +24,15 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(FoodCategory foodCategory)
+        public IActionResult Create(FoodCategoryCreateDto dto)
         {
-            var result = _foodCategoryManager.Add(foodCategory);
+            var result = _foodCategoryManager.Add(dto);
             if (result.IsSuccess)
             {
                 return RedirectToAction("Index");
             }
 
-            return View(foodCategory);
+            return View(dto);
         }
 
         [HttpGet]
@@ -43,13 +44,13 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(FoodCategory foodCategory)
+        public IActionResult Edit(FoodCategoryUpdateDto dto)
         {
-            var result = _foodCategoryManager.Update(foodCategory);
+            var result = _foodCategoryManager.Update(dto);
 
             if (result.IsSuccess) return RedirectToAction("Index");
 
-            return View(foodCategory);
+            return View(dto);
         }
 
         [HttpPost]

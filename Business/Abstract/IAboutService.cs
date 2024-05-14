@@ -7,7 +7,6 @@ namespace Business.Abstract
     {
         IResult Add(About entity);
         IResult Update(About entity);
-        IResult Delete(About entity);
         IDataResult<List<About>> GetAll();
         IDataResult<About> GetById(int id);
     }

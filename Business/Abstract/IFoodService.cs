@@ -1,4 +1,5 @@
 ﻿using Core.Results.Abstract;
+using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 
 namespace Business.Abstract
@@ -8,7 +9,7 @@ namespace Business.Abstract
         IResult Add(Food entity);
         IResult Update(Food entity);
         IResult Delete(int id);
-        IDataResult<List<Food>> GetFoodWithFoodCategoryId();
+        IDataResult<List<FoodDto>> GetFoodWithFoodCategoryId();
         IDataResult<Food> GetById(int id);
     }
 }

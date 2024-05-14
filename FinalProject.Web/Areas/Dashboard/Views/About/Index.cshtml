@@ -1,0 +1,42 @@
+﻿@model List<About>
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                @if ((bool)ViewBag.ShowButton)
+                {
+                    <form action="About/Create" method="get">
+                        <p>
+                            <button class="btn btn-primary">@DefaultConstantValue.ADD_MESSAGE</button>
+                        </p>
+                    </form>
+                }
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Haqqımızda</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.Description.Length>50 ? item.Description.Substring(0,50) +"..." :item.Description)</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,4 +1,4 @@
-﻿@model List<Food>
+﻿@model List<FoodDto>
 
 <div class="container-fluid">
     <div class="card shadow mb-4">
@@ -26,7 +26,7 @@
                         {
                             <tr>
                                 <td>@item.Name</td>
-                                <td>@item.FoodCategory.Name</td>
+                                <td>@item.FoodCategoryName</td>
                                 <td>@(item.Description.Length >20 ? item.Description.Substring(0,20) +"..."  :item.Description)</td>
                                 <td>@(item.IsHomePage ? "Bəli" :"Xeyr")</td>
                                 <td>@item.Price</td>
