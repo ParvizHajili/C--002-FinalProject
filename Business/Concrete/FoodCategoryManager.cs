@@ -2,6 +2,7 @@
 using Business.BaseMessages;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using DataAccess.Asbtract;
 using DataAccess.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
@@ -10,12 +11,17 @@ namespace Business.Concrete
 {
     public class FoodCategoryManager : IFoodCategoryService
     {
-        FoodCategoryDal foodCategoryDal = new();
+        private readonly IFoodCategoryDal _foodCategoryDal;
+        public FoodCategoryManager(IFoodCategoryDal foodCategoryDal)
+        {
+            _foodCategoryDal = foodCategoryDal;
+        }
+
         public IResult Add(FoodCategoryCreateDto dto)
         {
             var model = FoodCategoryCreateDto.ToFoodCategory(dto);
 
-            foodCategoryDal.Add(model);
+            _foodCategoryDal.Add(model);
 
             return new SuccessResult(UIMessages.ADDED_MESSAGE);
         }
@@ -26,7 +32,7 @@ namespace Business.Concrete
             var model = FoodCategoryUpdateDto.ToFoodCategory(dto);
             model.LastUpdateDate = DateTime.Now;
 
-            foodCategoryDal.Update(model);
+            _foodCategoryDal.Update(model);
 
             return new SuccessResult(UIMessages.UPDATE_MESSAGE);
         }
@@ -36,19 +42,19 @@ namespace Business.Concrete
             var data = GetById(id).Data;
             data.Deleted = id;
 
-            foodCategoryDal.Update(data);
+            _foodCategoryDal.Update(data);
 
             return new SuccessResult(UIMessages.Deleted_MESSAGE);
         }
 
         public IDataResult<List<FoodCategory>> GetAll()
         {
-            return new SuccessDataResult<List<FoodCategory>>(foodCategoryDal.GetAll(x => x.Deleted == 0));
+            return new SuccessDataResult<List<FoodCategory>>(_foodCategoryDal.GetAll(x => x.Deleted == 0));
         }
 
         public IDataResult<FoodCategory> GetById(int id)
         {
-            return new SuccessDataResult<FoodCategory>(foodCategoryDal.GetById(id));
+            return new SuccessDataResult<FoodCategory>(_foodCategoryDal.GetById(id));
         }
     }
 }

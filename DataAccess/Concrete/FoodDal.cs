@@ -3,13 +3,18 @@ using DataAccess.Asbtract;
 using DataAccess.Context;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete
 {
     public class FoodDal : BaseRepository<Food, ApplicationDbContext>, IFoodDal
     {
-        ApplicationDbContext _context = new();
+        private readonly ApplicationDbContext _context;
+
+        public FoodDal(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public List<FoodDto> GetFoodWithFoodCategories()
         {
             var result = from food in _context.Foods

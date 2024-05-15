@@ -1,3 +1,12 @@
+using Business.Abstract;
+using Business.Concrete;
+using Business.Validations;
+using DataAccess.Asbtract;
+using DataAccess.Concrete;
+using DataAccess.Context;
+using Entities.Concrete.TableModels;
+using FluentValidation;
+
 namespace FinalProject.Web
 {
     public class Program
@@ -8,6 +17,22 @@ namespace FinalProject.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            //builder.Services.AddScoped
+            //builder.Services.AddTransient
+            //builder.Services.AddSingleton
+
+            builder.Services.AddDbContext<ApplicationDbContext>();
+
+            builder.Services.AddScoped<IAboutDal, AboutDal>();
+            builder.Services.AddScoped<IAboutService, AboutManager>();
+            builder.Services.AddScoped<IValidator<About>,AboutValidation>();
+
+            builder.Services.AddScoped<IFoodCategoryDal,FoodCategoryDal>();
+            builder.Services.AddScoped<IFoodCategoryService,FoodCategoryManager>();
+
+            builder.Services.AddScoped<IFoodDal, FoodDal>();
+            builder.Services.AddScoped<IFoodService, FoodManager>();
 
             var app = builder.Build();
 

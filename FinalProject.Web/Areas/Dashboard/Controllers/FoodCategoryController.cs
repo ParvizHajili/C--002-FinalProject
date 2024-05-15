@@ -1,4 +1,5 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +9,15 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
     [Area("Dashboard")]
     public class FoodCategoryController : Controller
     {
-        FoodCategoryManager _foodCategoryManager = new();
+        private readonly IFoodCategoryService _foodCategoryService;
+        public FoodCategoryController(IFoodCategoryService foodCategoryService)
+        {
+            _foodCategoryService = foodCategoryService;
+        }
 
         public IActionResult Index()
         {
-            var data = _foodCategoryManager.GetAll().Data;
+            var data = _foodCategoryService.GetAll().Data;
 
             return View(data);
         }
@@ -26,7 +31,7 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Create(FoodCategoryCreateDto dto)
         {
-            var result = _foodCategoryManager.Add(dto);
+            var result = _foodCategoryService.Add(dto);
             if (result.IsSuccess)
             {
                 return RedirectToAction("Index");
@@ -38,7 +43,7 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var data = _foodCategoryManager.GetById(id).Data;
+            var data = _foodCategoryService.GetById(id).Data;
 
             return View(data);
         }
@@ -46,7 +51,7 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Edit(FoodCategoryUpdateDto dto)
         {
-            var result = _foodCategoryManager.Update(dto);
+            var result = _foodCategoryService.Update(dto);
 
             if (result.IsSuccess) return RedirectToAction("Index");
 
@@ -56,7 +61,7 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var result = _foodCategoryManager.Delete(id);
+            var result = _foodCategoryService.Delete(id);
             if(result.IsSuccess)
                 return RedirectToAction("Index");
 

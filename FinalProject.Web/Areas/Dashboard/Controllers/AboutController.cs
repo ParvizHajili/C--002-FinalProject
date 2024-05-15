@@ -1,4 +1,6 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
+using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +9,11 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
     [Area("Dashboard")]
     public class AboutController : Controller
     {
-        AboutManager _aboutService = new();
+        private readonly IAboutService _aboutService;
+        public AboutController(IAboutService aboutService)
+        {
+            _aboutService = aboutService;
+        }
 
         public IActionResult Index()
         {
@@ -25,12 +31,16 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(About about)
+        public IActionResult Create(AboutCreateDto dto)
         {
-            var result = _aboutService.Add(about);
-            if (result.IsSuccess) return RedirectToAction("Index");
+            var result = _aboutService.Add(dto);
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError("",result.Message);
+                return View();
+            }
 
-            return View(about);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
