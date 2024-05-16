@@ -1,4 +1,5 @@
-using FinalProject.Web.Models;
+using Business.Abstract;
+using FinalProject.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,27 +7,32 @@ namespace FinalProject.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IAboutService _aboutService;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IFoodCategoryService _foodCategoryService;
+        private readonly IFoodService _foodService;
+        public HomeController(IAboutService aboutService, 
+            IFoodCategoryService foodCategoryService,
+            IFoodService foodService)
         {
-            _logger = logger;
+            _aboutService = aboutService;
+            _foodCategoryService = foodCategoryService;
+            _foodService = foodService;
         }
+
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var aboutData = _aboutService.GetAll().Data;
+            var foodCategoryData = _foodCategoryService.GetAll().Data;
+            var foodData = _foodService.GetFoodWithFoodCategoryId().Data;
+            HomeViewModel viewModel = new()
+            {
+                Abouts = aboutData,
+                FoodCategories = foodCategoryData,
+                Foods= foodData,
+            };
+            return View(viewModel);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
-using Business.Concrete;
-using Core.Results.Concrete;
+using Core.Extenstion;
 using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +10,12 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
     {
         private readonly IFoodService _foodService;
         private readonly IFoodCategoryService _foodCategoryService;
-        public FoodController(IFoodService foodService, IFoodCategoryService foodCategoryService)
+        private readonly IWebHostEnvironment _env;
+        public FoodController(IFoodService foodService, IFoodCategoryService foodCategoryService, IWebHostEnvironment webHostEnvironment)
         {
             _foodService = foodService;
             _foodCategoryService = foodCategoryService;
+            _env = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -33,9 +34,9 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Food food)
+        public IActionResult Create(Food food,IFormFile photoUrl)
         {
-            var result = _foodService.Add(food);
+            var result = _foodService.Add(food,photoUrl,_env.WebRootPath);
 
             if (result.IsSuccess)
             {
@@ -55,10 +56,10 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Food food)
+        public IActionResult Edit(Food food,IFormFile photoUrl)
         {
-            var result = _foodService.Update(food);
-
+            
+            var result = _foodService.Update(food,photoUrl,_env.WebRootPath);
 
             if (result.IsSuccess)
             {

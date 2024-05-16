@@ -35,6 +35,7 @@ namespace Business.Concrete
                 return new ErrorResult(errorMessage);
             }
 
+            _aboutdal.Add(model);
 
             return new SuccessResult(UIMessages.ADDED_MESSAGE);
         }

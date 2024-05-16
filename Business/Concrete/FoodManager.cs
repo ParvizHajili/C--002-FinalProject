@@ -1,11 +1,12 @@
 ﻿using Business.Abstract;
 using Business.BaseMessages;
+using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
 using DataAccess.Asbtract;
-using DataAccess.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
+using Microsoft.AspNetCore.Http;
 
 namespace Business.Concrete
 {
@@ -18,15 +19,26 @@ namespace Business.Concrete
             _foodDal = foodDal;
         }
 
-        public IResult Add(Food entity)
+        public IResult Add(Food entity,IFormFile photoUrl,string webRootPath)
         {
+            entity.PhotoUrl = PictureHelper.UploadImage(photoUrl, webRootPath);
+
             _foodDal.Add(entity);
 
             return new SuccessResult(UIMessages.ADDED_MESSAGE);
         }
 
-        public IResult Update(Food entity)
+        public IResult Update(Food entity, IFormFile photoUrl, string webRootPath)
         {
+            var existData = GetById(entity.Id).Data;
+            if (photoUrl == null)
+            {
+                entity.PhotoUrl = existData.PhotoUrl;
+            }
+            else
+            {
+                entity.PhotoUrl = PictureHelper.UploadImage(photoUrl, webRootPath);
+            }
             entity.LastUpdateDate = DateTime.Now;
             _foodDal.Update(entity);
 
