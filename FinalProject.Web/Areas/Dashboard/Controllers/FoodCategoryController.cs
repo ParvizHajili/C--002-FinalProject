@@ -2,11 +2,13 @@
 using Business.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Web.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class FoodCategoryController : Controller
     {
         private readonly IFoodCategoryService _foodCategoryService;

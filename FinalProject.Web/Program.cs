@@ -5,7 +5,9 @@ using DataAccess.Asbtract;
 using DataAccess.Concrete;
 using DataAccess.Context;
 using Entities.Concrete.TableModels;
+using Entities.Concrete.TableModels.Membership;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace FinalProject.Web
 {
@@ -21,8 +23,30 @@ namespace FinalProject.Web
             //builder.Services.AddScoped
             //builder.Services.AddTransient
             //builder.Services.AddSingleton
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
 
-            builder.Services.AddDbContext<ApplicationDbContext>();
+            builder.Services.AddDbContext<ApplicationDbContext>()
+                .AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 5;
+
+                options.User.RequireUniqueEmail = true;
+            });
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(20);
+                options.Cookie.Name = "RestaurantDb";
+                options.Cookie.HttpOnly = false;
+            });
 
             builder.Services.AddScoped<IAboutDal, AboutDal>();
             builder.Services.AddScoped<IAboutService, AboutManager>();
@@ -49,6 +73,7 @@ namespace FinalProject.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             //app.MapControllerRoute(
