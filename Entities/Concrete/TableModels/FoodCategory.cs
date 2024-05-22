@@ -2,7 +2,7 @@
 
 namespace Entities.Concrete.TableModels
 {
-    public class FoodCategory : BaseEntity
+    public class FoodCategory : BaseEntity, IEntity
     {
         public FoodCategory()
         {

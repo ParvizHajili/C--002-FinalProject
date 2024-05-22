@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Core.Extenstion
+namespace Core.Extensions
 {
     public static class PictureHelper
     {

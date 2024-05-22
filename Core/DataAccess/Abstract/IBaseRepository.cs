@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Core.DataAccess.Abstract
 {
-    public interface IBaseRepository<T> where T : BaseEntity, new()
+    public interface IBaseRepository<T> where T : IEntity, new()
     {
         void Add(T entity);
         void Update(T entity);

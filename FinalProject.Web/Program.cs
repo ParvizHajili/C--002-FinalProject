@@ -43,7 +43,7 @@ namespace FinalProject.Web
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
-                options.ExpireTimeSpan = TimeSpan.FromSeconds(20);
+                options.ExpireTimeSpan = TimeSpan.FromDays(20);
                 options.Cookie.Name = "RestaurantDb";
                 options.Cookie.HttpOnly = false;
             });
@@ -57,6 +57,15 @@ namespace FinalProject.Web
 
             builder.Services.AddScoped<IFoodDal, FoodDal>();
             builder.Services.AddScoped<IFoodService, FoodManager>();
+
+            builder.Services.AddScoped<ITagDal, TagDal>();
+            builder.Services.AddScoped<ITagService, TagManager>();
+
+            builder.Services.AddScoped<IBlogDal, BlogDal>();
+            builder.Services.AddScoped<IBlogservice, BlogManager>();
+
+            builder.Services.AddScoped<IBlogTagDal, BlogTagDal>();
+
 
             var app = builder.Build();
 

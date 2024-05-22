@@ -1,6 +1,6 @@
 ﻿using Business.Abstract;
 using Business.BaseMessages;
-using Core.Extenstion;
+using Core.Extensions;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
 using DataAccess.Asbtract;

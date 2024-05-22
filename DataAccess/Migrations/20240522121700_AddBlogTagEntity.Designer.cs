@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240517120939_MemberShipMigrations")]
-    partial class MemberShipMigrations
+    [Migration("20240522121700_AddBlogTagEntity")]
+    partial class AddBlogTagEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BlogTag", b =>
+                {
+                    b.Property<int>("BlogsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BlogsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("BlogTag");
+                });
 
             modelBuilder.Entity("Entities.Concrete.TableModels.About", b =>
                 {
@@ -50,6 +65,70 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Abouts", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.Concrete.TableModels.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Deleted")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2500)
+                        .HasColumnType("nvarchar(2500)");
+
+                    b.Property<DateTime?>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.TableModels.BlogTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Deleted")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("BlogTags");
                 });
 
             modelBuilder.Entity("Entities.Concrete.TableModels.Contact", b =>
@@ -536,6 +615,36 @@ namespace DataAccess.Migrations
                     b.ToTable("Services", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.Concrete.TableModels.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Deleted")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name", "Deleted")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("Entities.Concrete.TableModels.Team", b =>
                 {
                     b.Property<int>("Id")
@@ -635,6 +744,40 @@ namespace DataAccess.Migrations
                     b.ToTable("Testimonials", (string)null);
                 });
 
+            modelBuilder.Entity("BlogTag", b =>
+                {
+                    b.HasOne("Entities.Concrete.TableModels.Blog", null)
+                        .WithMany()
+                        .HasForeignKey("BlogsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Concrete.TableModels.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Concrete.TableModels.BlogTag", b =>
+                {
+                    b.HasOne("Entities.Concrete.TableModels.Blog", "Blog")
+                        .WithMany("BlogTags")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Concrete.TableModels.Tag", "Tag")
+                        .WithMany("BlogTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+
+                    b.Navigation("Tag");
+                });
+
             modelBuilder.Entity("Entities.Concrete.TableModels.Food", b =>
                 {
                     b.HasOne("Entities.Concrete.TableModels.FoodCategory", "FoodCategory")
@@ -708,6 +851,11 @@ namespace DataAccess.Migrations
                     b.Navigation("Position");
                 });
 
+            modelBuilder.Entity("Entities.Concrete.TableModels.Blog", b =>
+                {
+                    b.Navigation("BlogTags");
+                });
+
             modelBuilder.Entity("Entities.Concrete.TableModels.FoodCategory", b =>
                 {
                     b.Navigation("Foods");
@@ -716,6 +864,11 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.TableModels.Position", b =>
                 {
                     b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.TableModels.Tag", b =>
+                {
+                    b.Navigation("BlogTags");
                 });
 #pragma warning restore 612, 618
         }

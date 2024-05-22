@@ -28,5 +28,8 @@ namespace DataAccess.Context
         public DbSet<Service> Services { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<BlogTag> BlogTags { get; set; }
     }
 }

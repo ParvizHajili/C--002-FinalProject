@@ -1,0 +1,112 @@
+﻿@model Blog
+<style>
+    .error-span {
+        color: red;
+        font-size: 18px;
+        font-weight: 650;
+        margin-left: 5px;
+    }
+
+    .iti {
+        width: 100%;
+    }
+
+    .right-sidebar-item {
+        overflow: hidden;
+        height: 550px;
+        padding-bottom: 20px;
+    }
+
+
+    .checkboxes {
+        width: 100%;
+        background: rgb(240, 240, 240);
+        padding: 20px;
+        overflow: scroll;
+        max-height: 450px;
+        overflow-x: hidden;
+        border-radius: 20px;
+    }
+
+        .checkboxes::-webkit-scrollbar {
+            display: none;
+        }
+
+    .search {
+        width: 100%;
+        border-radius: 3mm;
+        padding: 10px;
+        outline: none;
+        border: 1px solid gray;
+    }
+
+    .select_label {
+        display: block;
+        padding: 10px 0;
+    }
+
+        .select_label h4 {
+            display: inline-block;
+            margin: 0;
+        }
+
+    input.checkbox {
+        width: 20px;
+        height: 20px;
+    }
+
+    .checkbox {
+        margin-right: 10px;
+    }
+</style>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Başlıq</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Açıqlama</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="col-lg-8">
+                <div class="col-lg-12">
+                    <div class="card-body card shadow right-sidebar-item">
+                        <div class="form-group">
+                            <label>Taglar:</label>
+                            <div id="checkboxes2" class="checkboxes">
+                               @*  <div class="control">
+                                    <input class="input search" type="text" placeholder="Search" id="search" />
+                                    <span class="icon is-small is-left">
+                                        <span class="searchIcon"></span>
+                                    </span>
+                                </div> *@
+                                @foreach (var tag in ViewData["Tags"] as IEnumerable<Tag>)
+                                {
+                                    <label for="teacher" class="select_label">
+                                        <input type="checkbox" class="checkbox" value="@tag.Id" name="tagIds" id="@tag.Name" />@tag.Name
+                                        <span class="select_label-icon"></span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="@DefaultConstantValue.ADD_MESSAGE" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">@DefaultConstantValue.RETURN_TO_BACK</a>
+</div>

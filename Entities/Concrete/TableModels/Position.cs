@@ -2,7 +2,7 @@
 
 namespace Entities.Concrete.TableModels
 {
-    public class Position : BaseEntity
+    public class Position : BaseEntity, IEntity
     {
         public Position()
         {

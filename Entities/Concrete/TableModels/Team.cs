@@ -2,7 +2,7 @@
 
 namespace Entities.Concrete.TableModels
 {
-    public class Team : BaseEntity
+    public class Team : BaseEntity, IEntity
     {
         public string Name { get; set; }
         public string SurName { get; set; }

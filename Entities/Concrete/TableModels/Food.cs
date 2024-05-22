@@ -2,7 +2,7 @@
 
 namespace Entities.Concrete.TableModels
 {
-    public class Food : BaseEntity
+    public class Food : BaseEntity, IEntity
     {
         public string Name { get; set; }
         public string Description { get; set; }

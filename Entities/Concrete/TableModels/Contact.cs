@@ -2,7 +2,7 @@
 
 namespace Entities.Concrete.TableModels
 {
-    public class Contact : BaseEntity
+    public class Contact : BaseEntity, IEntity
     {
         public string Name { get; set; }
         public string Email { get; set; }

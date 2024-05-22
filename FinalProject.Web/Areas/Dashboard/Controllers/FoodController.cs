@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Core.Extenstion;
+using Core.Extenstions;
 using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -59,8 +59,7 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
 
         [HttpPost]
         public IActionResult Edit(Food food,IFormFile photoUrl)
-        {
-            
+        {  
             var result = _foodService.Update(food,photoUrl,_env.WebRootPath);
 
             if (result.IsSuccess)

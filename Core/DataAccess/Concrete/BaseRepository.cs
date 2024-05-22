@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace Core.DataAccess.Concrete
 {
     public class BaseRepository<TEntity, TContext> : IBaseRepository<TEntity>
-        where TEntity : BaseEntity, new()
+        where TEntity : BaseEntity,IEntity, new()
         where TContext : DbContext, new()
     {
         public void Add(TEntity entity)

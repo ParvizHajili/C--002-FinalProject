@@ -1,11 +1,14 @@
 ﻿using Business.Abstract;
 using Business.BaseMessages;
+using Business.Validations;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using Core.Validation;
 using DataAccess.Asbtract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using FluentValidation;
+using Core.Extenstions;
 
 namespace Business.Concrete
 {
@@ -22,17 +25,11 @@ namespace Business.Concrete
         {
             var model = AboutCreateDto.ToAbout(dto);
 
-            var validator = _validator.Validate(model);
+            var validator = ValidationTool.Validate(new AboutValidation(), model, out List<ValidationErrorModel> errors);
 
-            string errorMessage= " ";
-            foreach (var item in validator.Errors)
+            if (!validator)
             {
-                errorMessage = item.ErrorMessage;
-            }
-
-            if (!validator.IsValid)
-            {
-                return new ErrorResult(errorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
 
             _aboutdal.Add(model);

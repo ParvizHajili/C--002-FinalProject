@@ -38,8 +38,8 @@ namespace FinalProject.Web.Areas.Dashboard.Controllers
             var result = _aboutService.Add(dto);
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("",result.Message);
-                return View();
+                ModelState.AddModelError(" ",result.Message);
+                return View(dto);
             }
 
             return RedirectToAction("Index");
