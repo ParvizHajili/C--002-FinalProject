@@ -83,7 +83,7 @@
                 <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>Restoran</h1>
                 @foreach (var item in Model.Abouts)
                 {
-                    <p>@item.Description</p>
+                    <p>@Html.Raw(item.Description)</p>
                 }
                 <div class="row g-4 mb-4">
                     <div class="col-sm-6">
@@ -115,6 +115,7 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            @await Component.InvokeAsync("FoodCategoryCount")
             <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
             <h1 class="mb-5">Most Popular Items</h1>
         </div>

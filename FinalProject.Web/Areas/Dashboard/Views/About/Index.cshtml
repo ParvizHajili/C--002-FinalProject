@@ -23,7 +23,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@(item.Description.Length>50 ? item.Description.Substring(0,50) +"..." :item.Description)</td>
+                                <td>@(Html.Raw(item.Description.Length>50 ? item.Description.Substring(0,50) +"..." :item.Description))</td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id">
                                         <i class="fa-solid fa-pen-to-square"></i>
