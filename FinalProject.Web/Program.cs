@@ -44,7 +44,7 @@ namespace FinalProject.Web
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.ExpireTimeSpan = TimeSpan.FromDays(20);
-                options.Cookie.Name = "RestaurantDb";
+                options.Cookie.Name = "Restaurant";
                 options.Cookie.HttpOnly = false;
             });
 

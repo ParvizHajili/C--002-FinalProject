@@ -27,11 +27,9 @@ namespace FinalProject.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new();
-
                 user = await _userManager.FindByEmailAsync(dto.Email);
 
                 if (user == null)

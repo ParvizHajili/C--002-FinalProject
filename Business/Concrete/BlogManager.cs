@@ -3,6 +3,7 @@ using Business.BaseMessages;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
 using DataAccess.Asbtract;
+using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 
 namespace Business.Concrete
@@ -26,6 +27,17 @@ namespace Business.Concrete
             _blogDal.Add(blog);
 
             _blogDal.AddWithTag(blog, tagIds);
+
+            return new SuccessResult(UIMessages.ADDED_MESSAGE);
+        }
+
+        public IResult Add(BlogCreateDto dto)
+        {
+            var blog = BlogCreateDto.ToBlog(dto);
+
+            _blogDal.Add(blog);
+
+            _blogDal.AddWithTag(blog, dto.tagIds);
 
             return new SuccessResult(UIMessages.ADDED_MESSAGE);
         }
