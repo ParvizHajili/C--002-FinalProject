@@ -1,11 +1,13 @@
 ﻿using Business.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.WebApi.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FoodsController : ControllerBase
@@ -25,6 +27,8 @@ namespace FinalProject.WebApi.Controllers
         [HttpGet("GetFoods")]
         public IActionResult GetFoods()
         {
+            HttpClient client = new HttpClient();
+            
             var result = _foodService.GetFoodWithFoodCategoryId();
 
             if (result.IsSuccess)
@@ -43,7 +47,7 @@ namespace FinalProject.WebApi.Controllers
 
             return BadRequest("Göndərilən məlumat doğru deyil");
         }
-
+        [AllowAnonymous]
         [HttpPost("AddAbout")]
         public IActionResult AddAbout(AboutCreateDto aboutCreateDto)
         {

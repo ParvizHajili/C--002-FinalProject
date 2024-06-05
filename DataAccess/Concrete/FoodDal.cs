@@ -33,8 +33,26 @@ namespace DataAccess.Concrete
                              Price = food.Price,
                              FoodCategoryName = foodC.Name,
                          };
-
             return result.ToList();
+            //return result.ToList();
+            //var data = _context.Foods.Find(10000);
+            //first => göndərdiyimiz parametrə uyğun bir neçə data varsa ilkini gətirir
+            //data yoxdursa error atir
+            //firstordefault => göndərdiyimiz parametrə uyğun bir neçə data varsa ilkini gətirir
+            //data yoxdursa null qaytarir
+            //single =>göndərdiyimiz parametrə uyğun bir neçə data varsa xeta atir
+            //data yoxdursa xeta atir
+            //singleordefault => göndərdiyimiz parametrə uyğun bir neçə data varsa xeta atir
+            //data yoxdursa null deyer qaytarir
+            //first ve firstordefault
+
+            //var data = _context.Foods.Where(x => x.IsHomePage == false)
+            //    .OrderBy(x => x.Name)
+            //    .LastOrDefault();
+
+
+
+            //return new List<FoodDto>();
         }
     }
 }
